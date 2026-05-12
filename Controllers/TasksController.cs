@@ -17,7 +17,7 @@ namespace AspAplication.Controllers
 
         [HttpGet]
         public ActionResult<List<TaskItem>> GetAll()
-        {
+        {   
             return Ok(_taskService.GetAll());
         }
 

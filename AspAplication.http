@@ -1,6 +1,22 @@
-@AspAplication_HostAddress = http://localhost:5039
+@AspAplication_HostAddress = https://localhost:7131
 
-GET {{AspAplication_HostAddress}}/weatherforecast/
-Accept: application/json
+### Ver todas las tareas
+GET {{AspAplication_HostAddress}}/api/tasks
 
-###
+### Crear una tarea
+POST {{AspAplication_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Estudiar ASP.NET Core",
+  "description": "Repasar controllers, services y models"
+}
+
+### Ver tarea por ID
+GET {{AspAplication_HostAddress}}/api/tasks/2
+
+### Marcar tarea como completada
+PUT {{AspAplication_HostAddress}}/api/tasks/1/complete
+
+### Borrar tarea
+DELETE {{AspAplication_HostAddress}}/api/tasks/2
