@@ -1,4 +1,5 @@
-﻿using AspAplication.Models;
+﻿using AspAplication.Dtos;
+using AspAplication.Models;
 using AspAplication.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,13 +17,17 @@ namespace AspAplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<TaskItem>> GetAll()
+        public ActionResult<List<TaskResponse>> GetAll()
         {
-            return Ok(_taskService.GetAll());
+            List<TaskResponse> tasks = _taskService.GetAll()
+                .Select(task => ToResponse(task))
+                .ToList();
+
+            return Ok(tasks);
         }
 
         [HttpGet("{id}")]
-        public ActionResult<TaskItem> GetById(int id)
+        public ActionResult<TaskResponse> GetById(int id)
         {
             TaskItem? task = _taskService.GetById(id);
 
@@ -31,21 +36,23 @@ namespace AspAplication.Controllers
                 return NotFound();
             }
 
-            return Ok(task);
+            return Ok(ToResponse(task));
         }
 
         [HttpPost]
-        public ActionResult<TaskItem> Create(TaskItem task)
+        public ActionResult<TaskResponse> Create(CreateTaskRequest request)
         {
-            TaskItem createdTask = _taskService.Create(task);
+            TaskItem createdTask = _taskService.Create(request);
 
-            return CreatedAtAction(nameof(GetById), new { id = createdTask.Id }, createdTask);
+            TaskResponse response = ToResponse(createdTask);
+
+            return CreatedAtAction(nameof(GetById), new { id = response.Id }, response);
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, TaskItem task)
+        public IActionResult Update(int id, UpdateTaskRequest request)
         {
-            bool updated = _taskService.Update(id, task);
+            bool updated = _taskService.Update(id, request);
 
             if (!updated)
             {
@@ -79,6 +86,18 @@ namespace AspAplication.Controllers
             }
 
             return NoContent();
+        }
+
+        private static TaskResponse ToResponse(TaskItem task)
+        {
+            return new TaskResponse
+            {
+                Id = task.Id,
+                Title = task.Title,
+                Description = task.Description,
+                IsCompleted = task.IsCompleted,
+                CreatedAt = task.CreatedAt
+            };
         }
     }
 }

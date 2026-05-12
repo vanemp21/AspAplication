@@ -1,4 +1,5 @@
-﻿using AspAplication.Models;
+﻿using AspAplication.Dtos;
+using AspAplication.Models;
 
 namespace AspAplication.Services
 {
@@ -8,9 +9,9 @@ namespace AspAplication.Services
 
         TaskItem? GetById(int id);
 
-        TaskItem Create(TaskItem task);
+        TaskItem Create(CreateTaskRequest request);
 
-        bool Update(int id, TaskItem task);
+        bool Update(int id, UpdateTaskRequest request);
 
         bool Complete(int id);
 

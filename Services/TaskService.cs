@@ -1,4 +1,5 @@
-﻿using AspAplication.Models;
+﻿using AspAplication.Dtos;
+using AspAplication.Models;
 
 namespace AspAplication.Services
 {
@@ -18,11 +19,16 @@ namespace AspAplication.Services
             return _tasks.FirstOrDefault(task => task.Id == id);
         }
 
-        public TaskItem Create(TaskItem task)
+        public TaskItem Create(CreateTaskRequest request)
         {
-            task.Id = _nextId;
-            task.CreatedAt = DateTime.Now;
-            task.IsCompleted = false;
+            TaskItem task = new TaskItem
+            {
+                Id = _nextId,
+                Title = request.Title,
+                Description = request.Description,
+                IsCompleted = false,
+                CreatedAt = DateTime.Now
+            };
 
             _tasks.Add(task);
 
@@ -31,7 +37,7 @@ namespace AspAplication.Services
             return task;
         }
 
-        public bool Update(int id, TaskItem updatedTask)
+        public bool Update(int id, UpdateTaskRequest request)
         {
             TaskItem? task = GetById(id);
 
@@ -40,8 +46,8 @@ namespace AspAplication.Services
                 return false;
             }
 
-            task.Title = updatedTask.Title;
-            task.Description = updatedTask.Description;
+            task.Title = request.Title;
+            task.Description = request.Description;
 
             return true;
         }
