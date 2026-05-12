@@ -10,6 +10,8 @@ namespace AspAplication.Services
 
         TaskItem Create(TaskItem task);
 
+        bool Update(int id, TaskItem task);
+
         bool Complete(int id);
 
         bool Delete(int id);

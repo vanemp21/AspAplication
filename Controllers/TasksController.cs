@@ -17,7 +17,7 @@ namespace AspAplication.Controllers
 
         [HttpGet]
         public ActionResult<List<TaskItem>> GetAll()
-        {   
+        {
             return Ok(_taskService.GetAll());
         }
 
@@ -40,6 +40,19 @@ namespace AspAplication.Controllers
             TaskItem createdTask = _taskService.Create(task);
 
             return CreatedAtAction(nameof(GetById), new { id = createdTask.Id }, createdTask);
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult Update(int id, TaskItem task)
+        {
+            bool updated = _taskService.Update(id, task);
+
+            if (!updated)
+            {
+                return NotFound();
+            }
+
+            return NoContent();
         }
 
         [HttpPut("{id}/complete")]

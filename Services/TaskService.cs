@@ -31,6 +31,21 @@ namespace AspAplication.Services
             return task;
         }
 
+        public bool Update(int id, TaskItem updatedTask)
+        {
+            TaskItem? task = GetById(id);
+
+            if (task == null)
+            {
+                return false;
+            }
+
+            task.Title = updatedTask.Title;
+            task.Description = updatedTask.Description;
+
+            return true;
+        }
+
         public bool Complete(int id)
         {
             TaskItem? task = GetById(id);

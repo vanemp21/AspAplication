@@ -15,6 +15,15 @@ Content-Type: application/json
 ### Ver tarea por ID
 GET {{AspAplication_HostAddress}}/api/tasks/2
 
+### Editar tarea
+PUT {{AspAplication_HostAddress}}/api/tasks/1
+Content-Type: application/json
+
+{
+  "title": "Estudiar ASP.NET Core actualizado",
+  "description": "Ahora estoy practicando PUT para editar tareas"
+}
+
 ### Marcar tarea como completada
 PUT {{AspAplication_HostAddress}}/api/tasks/1/complete
 
