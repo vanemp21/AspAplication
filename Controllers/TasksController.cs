@@ -17,9 +17,9 @@ namespace AspAplication.Controllers
         }
 
         [HttpGet]
-        public ActionResult<List<TaskResponse>> GetAll()
+        public async Task<ActionResult<List<TaskResponse>>> GetAll()
         {
-            List<TaskResponse> tasks = _taskService.GetAll()
+            List<TaskResponse> tasks = (await _taskService.GetAllAsync())
                 .Select(task => ToResponse(task))
                 .ToList();
 
@@ -27,9 +27,9 @@ namespace AspAplication.Controllers
         }
 
         [HttpGet("{id}")]
-        public ActionResult<TaskResponse> GetById(int id)
+        public async Task<ActionResult<TaskResponse>> GetById(int id)
         {
-            TaskItem? task = _taskService.GetById(id);
+            TaskItem? task = await _taskService.GetByIdAsync(id);
 
             if (task == null)
             {
@@ -40,9 +40,9 @@ namespace AspAplication.Controllers
         }
 
         [HttpPost]
-        public ActionResult<TaskResponse> Create(CreateTaskRequest request)
+        public async Task<ActionResult<TaskResponse>> Create(CreateTaskRequest request)
         {
-            TaskItem createdTask = _taskService.Create(request);
+            TaskItem createdTask = await _taskService.CreateAsync(request);
 
             TaskResponse response = ToResponse(createdTask);
 
@@ -50,9 +50,9 @@ namespace AspAplication.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(int id, UpdateTaskRequest request)
+        public async Task<IActionResult> Update(int id, UpdateTaskRequest request)
         {
-            bool updated = _taskService.Update(id, request);
+            bool updated = await _taskService.UpdateAsync(id, request);
 
             if (!updated)
             {
@@ -63,9 +63,9 @@ namespace AspAplication.Controllers
         }
 
         [HttpPut("{id}/complete")]
-        public IActionResult Complete(int id)
+        public async Task<IActionResult> Complete(int id)
         {
-            bool completed = _taskService.Complete(id);
+            bool completed = await _taskService.CompleteAsync(id);
 
             if (!completed)
             {
@@ -76,9 +76,9 @@ namespace AspAplication.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
-            bool deleted = _taskService.Delete(id);
+            bool deleted = await _taskService.DeleteAsync(id);
 
             if (!deleted)
             {

@@ -5,16 +5,16 @@ namespace AspAplication.Services
 {
     public interface ITaskService
     {
-        List<TaskItem> GetAll();
+        Task<List<TaskItem>> GetAllAsync();
 
-        TaskItem? GetById(int id);
+        Task<TaskItem?> GetByIdAsync(int id);
 
-        TaskItem Create(CreateTaskRequest request);
+        Task<TaskItem> CreateAsync(CreateTaskRequest request);
 
-        bool Update(int id, UpdateTaskRequest request);
+        Task<bool> UpdateAsync(int id, UpdateTaskRequest request);
 
-        bool Complete(int id);
+        Task<bool> CompleteAsync(int id);
 
-        bool Delete(int id);
+        Task<bool> DeleteAsync(int id);
     }
 }

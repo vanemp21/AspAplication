@@ -1,6 +1,7 @@
 ﻿using AspAplication.Data;
 using AspAplication.Dtos;
 using AspAplication.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace AspAplication.Services
 {
@@ -13,17 +14,17 @@ namespace AspAplication.Services
             _context = context;
         }
 
-        public List<TaskItem> GetAll()
+        public async Task<List<TaskItem>> GetAllAsync()
         {
-            return _context.Tasks.ToList();
+            return await _context.Tasks.ToListAsync();
         }
 
-        public TaskItem? GetById(int id)
+        public async Task<TaskItem?> GetByIdAsync(int id)
         {
-            return _context.Tasks.FirstOrDefault(task => task.Id == id);
+            return await _context.Tasks.FirstOrDefaultAsync(task => task.Id == id);
         }
 
-        public TaskItem Create(CreateTaskRequest request)
+        public async Task<TaskItem> CreateAsync(CreateTaskRequest request)
         {
             TaskItem task = new TaskItem
             {
@@ -34,14 +35,15 @@ namespace AspAplication.Services
             };
 
             _context.Tasks.Add(task);
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
 
             return task;
         }
 
-        public bool Update(int id, UpdateTaskRequest request)
+        public async Task<bool> UpdateAsync(int id, UpdateTaskRequest request)
         {
-            TaskItem? task = GetById(id);
+            TaskItem? task = await GetByIdAsync(id);
 
             if (task == null)
             {
@@ -51,14 +53,14 @@ namespace AspAplication.Services
             task.Title = request.Title;
             task.Description = request.Description;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public bool Complete(int id)
+        public async Task<bool> CompleteAsync(int id)
         {
-            TaskItem? task = GetById(id);
+            TaskItem? task = await GetByIdAsync(id);
 
             if (task == null)
             {
@@ -67,14 +69,14 @@ namespace AspAplication.Services
 
             task.IsCompleted = true;
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
             return true;
         }
 
-        public bool Delete(int id)
+        public async Task<bool> DeleteAsync(int id)
         {
-            TaskItem? task = GetById(id);
+            TaskItem? task = await GetByIdAsync(id);
 
             if (task == null)
             {
@@ -82,7 +84,8 @@ namespace AspAplication.Services
             }
 
             _context.Tasks.Remove(task);
-            _context.SaveChanges();
+
+            await _context.SaveChangesAsync();
 
             return true;
         }
