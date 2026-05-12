@@ -36,3 +36,45 @@ PUT {{AspAplication_HostAddress}}/api/tasks/1/complete
 
 ### Borrar tarea
 DELETE {{AspAplication_HostAddress}}/api/tasks/2
+
+### Crear tarea con DTO
+POST {{AspAplication_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Aprender DTOs",
+  "description": "Separar lo que entra y lo que sale de la API"
+}
+
+### Intentar crear tarea manipulando campos internos
+POST {{AspAplication_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{
+  "id": 999,
+  "title": "Intento manipular",
+  "description": "Esto no debería respetar el ID enviado",
+  "isCompleted": true,
+  "createdAt": "2000-01-01T00:00:00"
+}
+
+### Editar tarea con DTO
+PUT {{AspAplication_HostAddress}}/api/tasks/2
+Content-Type: application/json
+
+{
+  "title": "DTOs entendidos",
+  "description": "Ahora el PUT solo cambia título y descripción"
+}
+
+### Ver tarea por ID
+GET {{AspAplication_HostAddress}}/api/tasks/1
+
+### Crear tarea inválida con DTO
+POST {{AspAplication_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "",
+  "description": "Esto debe fallar"
+}
