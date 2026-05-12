@@ -78,3 +78,11 @@ Content-Type: application/json
   "title": "",
   "description": "Esto debe fallar"
 }
+### Crear tarea inválida con DTO
+POST {{AspAplication_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "",
+  "description": "Esto debe fallar"
+}
