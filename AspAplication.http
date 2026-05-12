@@ -23,7 +23,14 @@ Content-Type: application/json
   "title": "Estudiar ASP.NET Core actualizado",
   "description": "Ahora estoy practicando PUT para editar tareas"
 }
+### Crear tarea inválida
+POST {{AspAplication_HostAddress}}/api/tasks
+Content-Type: application/json
 
+{
+  "title": "",
+  "description": "Esta tarea no debería crearse"
+}
 ### Marcar tarea como completada
 PUT {{AspAplication_HostAddress}}/api/tasks/1/complete
 
