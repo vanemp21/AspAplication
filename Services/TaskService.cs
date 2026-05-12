@@ -1,38 +1,40 @@
-﻿using AspAplication.Dtos;
+﻿using AspAplication.Data;
+using AspAplication.Dtos;
 using AspAplication.Models;
 
 namespace AspAplication.Services
 {
     public class TaskService : ITaskService
     {
-        private readonly List<TaskItem> _tasks = new();
+        private readonly AppDbContext _context;
 
-        private int _nextId = 1;
+        public TaskService(AppDbContext context)
+        {
+            _context = context;
+        }
 
         public List<TaskItem> GetAll()
         {
-            return _tasks;
+            return _context.Tasks.ToList();
         }
 
         public TaskItem? GetById(int id)
         {
-            return _tasks.FirstOrDefault(task => task.Id == id);
+            return _context.Tasks.FirstOrDefault(task => task.Id == id);
         }
 
         public TaskItem Create(CreateTaskRequest request)
         {
             TaskItem task = new TaskItem
             {
-                Id = _nextId,
                 Title = request.Title,
                 Description = request.Description,
                 IsCompleted = false,
                 CreatedAt = DateTime.Now
             };
 
-            _tasks.Add(task);
-
-            _nextId++;
+            _context.Tasks.Add(task);
+            _context.SaveChanges();
 
             return task;
         }
@@ -49,6 +51,8 @@ namespace AspAplication.Services
             task.Title = request.Title;
             task.Description = request.Description;
 
+            _context.SaveChanges();
+
             return true;
         }
 
@@ -63,6 +67,8 @@ namespace AspAplication.Services
 
             task.IsCompleted = true;
 
+            _context.SaveChanges();
+
             return true;
         }
 
@@ -75,7 +81,8 @@ namespace AspAplication.Services
                 return false;
             }
 
-            _tasks.Remove(task);
+            _context.Tasks.Remove(task);
+            _context.SaveChanges();
 
             return true;
         }

@@ -86,3 +86,14 @@ Content-Type: application/json
   "title": "",
   "description": "Esto debe fallar"
 }
+### Crear tarea
+POST {{AspAplication_HostAddress}}/api/tasks
+Content-Type: application/json
+
+{
+  "title": "Guardar en SQLite",
+  "description": "Esta tarea ya debería quedarse guardada en base de datos"
+}
+
+### Ver tareas
+GET {{AspAplication_HostAddress}}/api/tasks

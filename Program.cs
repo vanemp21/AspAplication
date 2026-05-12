@@ -1,10 +1,14 @@
 using AspAplication.Services;
+using AspAplication.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers();
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddSingleton<ITaskService, TaskService>();
+builder.Services.AddScoped<ITaskService, TaskService>();
 
 builder.Services.AddOpenApi();
 
